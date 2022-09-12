@@ -1,27 +1,29 @@
-let correct = 'my st(ring) [ok] {hello}';
-let uncorrect = 'my st(ring) [o(k] {hello}';
-
-syntaxChecker = (str) => {
-  let stack = [];
-  // For each char in the string
-  [...str].forEach(c => {
-    // opened char ? add to the stack
-    if ('([{'.includes(c)){
-      stack.push(c);
-    }
-    // closed char ? check if match the last opened
-    else if (')]}'.includes(c)){
-      let top = stack.pop();
-      if (! (c === ')' && top === '('
-          || c === ']' && top === '['
-          || c === '}' && top === '{')){
-        stack.push(c);
-      }
-    }
-  });
-  // stack empty = correct
-  return stack.length === 0;
+/**
+ * Implement the solution to brackets
+ *
+ * @param {string} str The string of brackets.
+ * @returns {"valid" | "invalid"} Whether or not the string is valid.
+ */
+ function isValid(str) {let tmp = 0;
+  for (c of str) {
+    if (c === '(') tmp++;
+    else if (c === ')' && --tmp < 0) return false; // Unexpected  ')' 
+  }
+  return tmp === 0; // False if unbalanced
 }
+const valid = '[()]{}{[()()]()}';
+const inValid = '[(])';
 
-console.log(syntaxChecker(correct)); // true
-console.log(syntaxChecker(uncorrect)); // false
+//isValid('[()]{}{[()()]()}');
+//isValid('[(])');;
+//console.log
+
+console.log(isValid(valid));
+console.log(isValid(inValid));
+//console.log(validate(veryBadBrackets));
+
+ module.exports = isValid;
+
+ //const goodBrackets = '(((())))';
+//const badBrackets = '(()())))';
+//const veryBadBrackets = '(()())()))';
